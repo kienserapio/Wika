@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 
 import * as schema from "../db/schema";
+import { PgInsertBase } from "drizzle-orm/pg-core";
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql, { schema });
@@ -70,8 +71,63 @@ const main = async () => {
             unitId: 1,
             order: 2,
             title: "Verbs",
-        }
+        },
+        {
+            id: 3,
+            unitId: 1,
+            order: 3,
+            title: "Verbs",
+        },
+        {
+            id: 4,
+            unitId: 1,
+            order: 4,
+            title: "Verbs",
+        },
+        {
+            id: 5,
+            unitId: 1,
+            order: 5,
+            title: "Verbs",
+        },
     ]);
+
+    await db.insert(schema.challenges).values([
+        {
+            id: 1,
+            lessonId: 1,
+            type: "SELECT",
+            order: 1,
+            question: "Which one of these is \"the mother?\"",
+        },
+    ]);
+
+    await db.insert(schema.challengeOptions).values([
+        {
+            id: 1,
+            challengeId: 1,
+            imageSrc: "/man.png",
+            correct: true,
+            text: "Tatay",
+            audioSrc: "/ph_father.mp3",
+        },
+        {
+            id: 2,
+            challengeId: 1,
+            imageSrc: "/woman.png",
+            correct: false,
+            text: "Nanay",
+            audioSrc: "/ph_mother.mp3",
+        },
+        {
+            id: 3,
+            challengeId: 1,
+            imageSrc: "/robot.png",
+            correct: false,
+            text: "Kuya",
+            audioSrc: "/ph_brother.mp3",
+        },
+    ]); 
 
         console.log("Seeding finished.")
     }
