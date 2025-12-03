@@ -2,7 +2,6 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { Header } from "./header";
 import { UserProgress } from "@/components/user-progress";
-<<<<<<< HEAD
 import { redirect } from "next/dist/client/components/navigation";
 import { getLessonPercentage, getCourseProgress, getUnits, getUserProgress } from "@/db/queries";
 import { Unit } from "./unit";
@@ -14,28 +13,15 @@ const LearnPage = async () => {
   const unitsData = getUnits();
 
   const [userProgress, units, courseProgress, lessonPercentage ] = await Promise.all([userProgressData, unitsData, courseProgressData, lessonPercentageData]);
-=======
-import { userProgress } from '../../../db/schema';
-import { redirect } from "next/dist/client/components/navigation";
-import { getUserProgress } from "@/db/queries";
-
-const LearnPage = async () => {
-  const userProgressData = getUserProgress();
-
-  const [userProgress] = await Promise.all([userProgressData]);
->>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
 
   if (!userProgress || !userProgress.activeCourse) {
     redirect("/courses");
   }
 
-<<<<<<< HEAD
   if (!courseProgress) {
     redirect("/courses");
   }
 
-=======
->>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
         <StickyWrapper>
@@ -48,7 +34,6 @@ const LearnPage = async () => {
         </StickyWrapper>
         <FeedWrapper>
             <Header title={userProgress.activeCourse.title}/>
-<<<<<<< HEAD
             {units.map((unit) => (
                 <div key={unit.id} className="mb-10"> 
                 <Unit 
@@ -62,8 +47,6 @@ const LearnPage = async () => {
                 />
                 </div>
             ))}
-=======
->>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
        </FeedWrapper>
     </div>
   );
