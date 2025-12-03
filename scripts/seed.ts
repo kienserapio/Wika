@@ -3,7 +3,10 @@ import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 
 import * as schema from "../db/schema";
+<<<<<<< HEAD
 import { PgInsertBase } from "drizzle-orm/pg-core";
+=======
+>>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql, { schema });
@@ -71,6 +74,7 @@ const main = async () => {
             unitId: 1,
             order: 2,
             title: "Verbs",
+<<<<<<< HEAD
         },
         {
             id: 3,
@@ -129,6 +133,11 @@ const main = async () => {
         },
     ]); 
 
+=======
+        }
+    ]);
+
+>>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
         console.log("Seeding finished.")
     }
     catch (error) {

@@ -1,7 +1,11 @@
 import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { auth } from "@clerk/nextjs/server";
+<<<<<<< HEAD
 import { courses, userProgress, units, lessons, challengeProgress } from "./schema";
+=======
+import { courses, userProgress } from "./schema";
+>>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
 import db from "./drizzle";
 
 export const getUserProgress = cache(async () => {
@@ -21,6 +25,7 @@ export const getUserProgress = cache(async () => {
     return data;
 });
 
+<<<<<<< HEAD
 export const getUnits = cache(async () => {
     const { userId } = await auth();
     const userProgress = await getUserProgress();
@@ -63,6 +68,8 @@ export const getUnits = cache(async () => {
     return normalizedData;
 });
 
+=======
+>>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
 export const getCourses = cache(async () => {
     const data = await db.query.courses.findMany();
 
@@ -75,6 +82,7 @@ export const getCourseById = cache(async (courseId: number) => {
     });
 
     return data;
+<<<<<<< HEAD
 });
 
 export const getCourseProgress = cache(async () => {
@@ -183,3 +191,6 @@ export const getLessonPercentage = cache(async () => {
     const percentage = Math.round((completedChallenges.length / lesson.challenges.length) * 100);
     return percentage;
 })
+=======
+});
+>>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)

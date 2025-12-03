@@ -9,7 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+<<<<<<< HEAD
         locked: "bg-neutral-200 text-primary-foreground hover:bg-neutral-200/90 border-neutral-400 border-b-4 active:border-b-0",
+=======
+>>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
         default: "bg-white text-black border-slate-200 border-2 border-b-4 active:border-b-2 hover:bg-slate-100 text-slate-500",
         // primary & secondary colors updated
         primary: "bg-[#624185] text-white hover:bg-[#624185]/90 border-[#522e6a] border-b-4 active:border-b-0",
