@@ -26,10 +26,10 @@ export const Sidebar = ({className}: Props) => {
     </Link>
 
     <div className="flex flex-col gap-y-2 flex-1">
-        <SidebarItem label="Learn" iconSrc="/learn-icon.png" href="/learn" />
-        <SidebarItem label="Leaderboard" iconSrc="/learn-icon.png" href="/leaderboard" />
-        <SidebarItem label="Missions" iconSrc="/learn-icon.png" href="/missions" />
-        <SidebarItem label="Shop" iconSrc="/learn-icon.png" href="/shop" />
+        <SidebarItem label="Learn" iconSrc="/learn.png" href="/learn" />
+        <SidebarItem label="Leaderboard" iconSrc="/leaderboard.png" href="/leaderboard" />
+        <SidebarItem label="Missions" iconSrc="/mission.png" href="/missions" />
+        <SidebarItem label="Shop" iconSrc="/points.png" href="/shop" />
     </div>
     <div className="p-4">
         <ClerkLoading>

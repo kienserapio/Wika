@@ -3,10 +3,7 @@ import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 
 import * as schema from "../db/schema";
-<<<<<<< HEAD
 import { PgInsertBase } from "drizzle-orm/pg-core";
-=======
->>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql, { schema });
@@ -74,7 +71,6 @@ const main = async () => {
             unitId: 1,
             order: 2,
             title: "Verbs",
-<<<<<<< HEAD
         },
         {
             id: 3,
@@ -102,13 +98,26 @@ const main = async () => {
             lessonId: 1,
             type: "SELECT",
             order: 1,
-            question: "Which one of these is \"the mother?\"",
+            question: "Which one of these is the \"father?\"",
+        },
+        {
+            id: 2,
+            lessonId: 1,
+            type: "ASSIST",
+            order: 2,
+            question: "\"the man?\"",
+        },
+        {
+            id: 3,
+            lessonId: 1,
+            type: "SELECT",
+            order: 3,
+            question: "Which one of these is the \"mother?\"",
         },
     ]);
 
     await db.insert(schema.challengeOptions).values([
         {
-            id: 1,
             challengeId: 1,
             imageSrc: "/man.png",
             correct: true,
@@ -116,7 +125,6 @@ const main = async () => {
             audioSrc: "/ph_father.mp3",
         },
         {
-            id: 2,
             challengeId: 1,
             imageSrc: "/woman.png",
             correct: false,
@@ -124,7 +132,6 @@ const main = async () => {
             audioSrc: "/ph_mother.mp3",
         },
         {
-            id: 3,
             challengeId: 1,
             imageSrc: "/robot.png",
             correct: false,
@@ -133,11 +140,75 @@ const main = async () => {
         },
     ]); 
 
-=======
-        }
+    await db.insert(schema.challengeOptions).values([
+        {
+            challengeId: 2,
+            correct: true,
+            text: "Tatay",
+            audioSrc: "/ph_father.mp3",
+        },
+        {
+            challengeId: 2,
+            correct: false,
+            text: "Nanay",
+            audioSrc: "/ph_mother.mp3",
+        },
+        {
+            challengeId: 2,
+            correct: false,
+            text: "Kuya",
+            audioSrc: "/ph_brother.mp3",
+        },
+    ]); 
+
+    await db.insert(schema.challengeOptions).values([
+        {
+            challengeId: 3,
+            imageSrc: "/man.png",
+            correct: false,
+            text: "Tatay",
+            audioSrc: "/ph_father.mp3",
+        },
+        {
+            challengeId: 3,
+            imageSrc: "/woman.png",
+            correct: true,
+            text: "Nanay",
+            audioSrc: "/ph_mother.mp3",
+        },
+        {
+            challengeId: 3,
+            imageSrc: "/robot.png",
+            correct: false,
+            text: "Kuya",
+            audioSrc: "/ph_brother.mp3",
+        },
+    ]); 
+
+    await db.insert(schema.challenges).values([
+        {
+            id: 4,
+            lessonId: 2,
+            type: "SELECT",
+            order: 1,
+            question: "Which one of these is the \"father?\"",
+        },
+        {
+            id: 5,
+            lessonId: 2,
+            type: "ASSIST",
+            order: 2,
+            question: "\"the man?\"",
+        },
+        {
+            id: 6,
+            lessonId: 2,
+            type: "SELECT",
+            order: 3,
+            question: "Which one of these is the \"mother?\"",
+        },
     ]);
 
->>>>>>> 0b8c208 (Initial commit w/ NextJS and Neon)
         console.log("Seeding finished.")
     }
     catch (error) {

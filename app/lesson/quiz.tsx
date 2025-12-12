@@ -9,6 +9,13 @@ import { Footer } from "./footer";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { reduceHearts } from "@/actions/user-progress";
+import { ResultCard } from "./result-card";
+import Confetti from "react-confetti";
+import Image from "next/image";
+import { useWindowSize, useMount } from "react-use";
+import { useHeartsModal } from "@/store/use-hearts-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
 type Props = {
     initialPercentage: number;
@@ -28,11 +35,26 @@ export const Quiz = ({
     initialLessonChallenges,
     userSubscription,
 }: Props) => {
+    const { open: openHeartsModal } = useHeartsModal();
+    const { open: openPracticeModal } = usePracticeModal();
+
+    useMount(() => {
+        if (initialPercentage === 100) {
+            openPracticeModal();
+        }
+    });
+    
+    const { width, height } = useWindowSize();
+
     const router = useRouter();
     const [pending, startTransition] = useTransition(); 
 
+    const [lessonId] = useState(initialLessonId);
+
     const [hearts, setHearts] = useState(initialHearts);
-    const [percentage, setPercentage] = useState(initialPercentage);
+    const [percentage, setPercentage] = useState(() => {
+        return initialPercentage === 100 ? 0 : initialPercentage;
+    });
     const [challenges] = useState(initialLessonChallenges);
     const [activeIndex, setActiveIndex] = useState(() => {
         const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed);
@@ -82,7 +104,7 @@ export const Quiz = ({
             startTransition(() => {
                 upsertChallengeProgress(challenge.id).then((response) => {
                     if (response?.error === "hearts") {
-                        console.log("No hearts left");
+                        useHeartsModal();
                         return;
                     }
 
@@ -102,34 +124,67 @@ export const Quiz = ({
             });
             
         } else {
-            setStatus("wrong");
-            if (!userSubscription?.isActive) {
-                setHearts((prev) => Math.max(prev - 1, 0));
-            }
+            startTransition(() => {
+                reduceHearts(challenge.id).then((response) => {
+                    if (response?.error === "hearts") {
+                        openHeartsModal();
+                        return;
+                    }
+                    setStatus("wrong");
+                    
+                    if (!response?.error) {
+                        setHearts((prev) => Math.max(prev - 1, 0))
+                    }
+            })
+            .catch(() => toast.error("Something went wrong."))
+        });
         }
     };
 
-    // Guard against undefined challenge
-    if (!challenge) {
+    if (status === "completed") {
         return (
             <>
-                <Header 
-                    hearts={hearts}
-                    percentage={100}
-                    hasActiveSubscription={!!userSubscription?.isActive}
+            <Confetti 
+                width={width}
+                height={height}
+                recycle={false}
+                numberOfPieces={500}
+                tweenDuration={10000}
+            />
+            <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+                <Image
+                src="/icon.png"
+                alt="Icon"
+                width={100}
+                height={100}
+                className="hidden lg:block"
                 />
-                <div className="flex-1 flex items-center justify-center">
-                    <div className="text-center">
-                        <h1 className="text-2xl font-bold mb-4">Lesson Complete!</h1>
-                        <p className="text-neutral-600">Redirecting to learn page...</p>
-                    </div>
+                <Image
+                src="/icon.png"
+                alt="Icon"
+                width={100}
+                height={100}
+                className="block lg:hidden"
+                />
+                <h1 className="text-xl lg:text-3xl font-bold text-neutral-700">
+                    Congratulations! <br /> You have completed this lesson.
+                </h1>
+                <div className="flex items-center gap-x-4 w-full">
+                    <ResultCard 
+                        variant="points"
+                        value={challenges.length * 10}
+                    />
+                    <ResultCard 
+                        variant="hearts"
+                        value={hearts}
+                    />
                 </div>
-                <Footer 
-                    disabled={false}
-                    status="completed"
-                    onCheck={() => router.push("/learn")}
-                    lessonId={initialLessonId}
-                />
+            </div>
+            <Footer 
+            lessonId={lessonId}
+            status="completed"
+            onCheck={() => router.push("/learn") }
+            />
             </>
         );
     }

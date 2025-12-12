@@ -4,6 +4,8 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from "@/components/ui/sonner";
 import { ExitModal } from "@/components/modals/exit-modal";
 import "./globals.css";
+import { HeartsModal } from "@/components/modals/hearts-modal";
+import { PracticeModal } from "@/components/modals/practice-modal";
 
 const font = Figtree({
   subsets: ["latin"],
@@ -26,6 +28,8 @@ export default function RootLayout({
         className={`${font.className} antialiased`}>
           <Toaster />
           <ExitModal />
+          <HeartsModal />
+          <PracticeModal />
         {children}
       </body>
     </html>
