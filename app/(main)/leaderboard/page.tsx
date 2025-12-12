@@ -4,7 +4,6 @@ import { getTopTenUsers, getUserProgress } from '@/db/queries';
 import { redirect } from 'next/navigation';
 import { FeedWrapper } from '@/components/feed-wrapper';
 import Image from 'next/image';
-import { Items } from './items';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Promo } from '@/components/promo';
