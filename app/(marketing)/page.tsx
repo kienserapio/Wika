@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import LearnPage from "../(main)/learn/page";
-export default function Home() {
+import { auth } from "@clerk/nextjs/server";
+import Link from "next/link";
+
+export default async function Home() {
+  const { userId } = await auth();
   return (
     <div className="overflow-x-hidden w-full min-h-screen">
 
@@ -34,17 +37,35 @@ export default function Home() {
           </p>
 
           <div className="flex w-full max-w-[540px] flex-col sm:flex-row items-center justify-center gap-3 mb-10">
-            <SignUpButton mode="modal" forceRedirectUrl="/learn">
-              <Button variant="primary" size="lg" className="w-full sm:w-[230px]">
-                LEARN NOW
-              </Button>
-            </SignUpButton>
+            {userId ? (
+              <>
+                <Link href="/learn" className="w-full sm:w-[230px]">
+                  <Button variant="primary" size="lg" className="w-full">
+                    LEARN NOW
+                  </Button>
+                </Link>
 
-            <SignInButton mode="modal" forceRedirectUrl="/learn">
-              <Button variant="secondaryOutline" size="lg" className="w-full sm:w-[230px]">
-                CONTINUE LEARNING
-              </Button>
-            </SignInButton>
+                <Link href="/learn" className="w-full sm:w-[230px]">
+                  <Button variant="secondaryOutline" size="lg" className="w-full">
+                    CONTINUE LEARNING
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <SignUpButton mode="modal" forceRedirectUrl="/learn">
+                  <Button variant="primary" size="lg" className="w-full sm:w-[230px]">
+                    LEARN NOW
+                  </Button>
+                </SignUpButton>
+
+                <SignInButton mode="modal" forceRedirectUrl="/learn">
+                  <Button variant="secondaryOutline" size="lg" className="w-full sm:w-[230px]">
+                    CONTINUE LEARNING
+                  </Button>
+                </SignInButton>
+              </>
+            )}
           </div>
 
           {/* Phone mockup */}
