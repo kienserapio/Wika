@@ -9,7 +9,7 @@ const LessonPage = async () => {
 
     const [lesson, userProgress,] = await Promise.all([lessonData, userProgressData]);
 
-    if (!lesson || !userProgress) {
+    if (!lesson || !userProgress || !userProgress.activeCourse) {
         redirect("/learn");
     }
 
@@ -23,6 +23,7 @@ const LessonPage = async () => {
         initialHearts={userProgress.hearts}
         initialPercentage={initialPercentage}
         userSubscription={null}
+        courseTitle={userProgress.activeCourse.title}
         />
     )
 };

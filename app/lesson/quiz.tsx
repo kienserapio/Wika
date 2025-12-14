@@ -26,6 +26,7 @@ type Props = {
         challengeOptions: typeof challengeOptions.$inferSelect[];
     })[];
     userSubscription: any;
+    courseTitle: string;
 };
 
 export const Quiz = ({
@@ -34,6 +35,7 @@ export const Quiz = ({
     initialLessonId,
     initialLessonChallenges,
     userSubscription,
+    courseTitle,
 }: Props) => {
     const { open: openHeartsModal } = useHeartsModal();
     const { open: openPracticeModal } = usePracticeModal();
@@ -141,9 +143,18 @@ export const Quiz = ({
         }
     };
 
+    // Convert course title to courseLanguage format (lowercase)
+    const courseLanguage = courseTitle.toLowerCase() as "cebuano" | "filipino" | "hiligaynon" | "pangasinan" | "ilocano";
+
     if (status === "completed") {
         return (
             <>
+            <Header 
+                hearts={hearts}
+                percentage={100}
+                hasActiveSubscription={!!userSubscription?.isActive}
+                courseLanguage={courseLanguage}
+            />
             <Confetti 
                 width={width}
                 height={height}
@@ -197,6 +208,7 @@ export const Quiz = ({
             hearts={hearts}
             percentage={percentage}
             hasActiveSubscription={!!userSubscription?.isActive}
+            courseLanguage={courseLanguage}
         />
         <div className="flex-1">
             <div className="h-full flex items-center justify-center">

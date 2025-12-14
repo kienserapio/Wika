@@ -4,18 +4,19 @@ import { Quiz } from "../quiz";
 
 type Props = {
     params: {
-        lessonId: number;
+        lessonId: string;
     };
 };
 
 
 const LessonIdPage = async ({ params }: Props) => {
-    const lessonData = getLesson(params.lessonId);
+    const lessonIdNum = Number(params.lessonId);
+    const lessonData = getLesson(lessonIdNum);
     const userProgressData = getUserProgress();
 
     const [lesson, userProgress,] = await Promise.all([lessonData, userProgressData]);
 
-    if (!lesson || !userProgress) {
+    if (!lesson || !userProgress || !userProgress.activeCourse) {
         redirect("/learn");
     }
 
@@ -29,6 +30,7 @@ const LessonIdPage = async ({ params }: Props) => {
         initialHearts={userProgress.hearts}
         initialPercentage={initialPercentage}
         userSubscription={null}
+        courseTitle={userProgress.activeCourse.title}
         />
     )
 };
